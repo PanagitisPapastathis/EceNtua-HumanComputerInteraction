@@ -1,4 +1,4 @@
-#Mon Jan 15 13:02:23 EET 2024
+#Mon Jan 15 16:49:55 EET 2024
 base.2=C\:\\flutter2\\ntuaproject\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes3.dex
 path.2=classes3.dex
 base.1=C\:\\flutter2\\ntuaproject\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes2.dex
