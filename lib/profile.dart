@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:treasurehunt/home.dart';
 import 'settings.dart';
 import 'friends.dart';
+import 'main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -375,7 +376,7 @@ class ImageButton extends StatelessWidget {
       left: 0,
       child: GestureDetector(
         onTap: () {
-          // Handle button tap
+          logout(context);
         },
         child: SizedBox(
           width: 350,
@@ -411,6 +412,20 @@ class ImageButton extends StatelessWidget {
   }
 }
 
+Future<void> logout(BuildContext context) async {
+  try {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => LoginPage()),
+          (Route<dynamic> route) => false,
+    );
+  } catch (e) {
+    print('Error logging out: $e');
+    // Optionally show an error message to the user
+  }
+}
+
+
 Future<void> updateUserNickname(String newNickname, BuildContext context) async {
   User? currentUser = FirebaseAuth.instance.currentUser;
   if (currentUser != null) {
@@ -420,7 +435,6 @@ Future<void> updateUserNickname(String newNickname, BuildContext context) async 
     Navigator.of(context).pop();
   }
 }
-
 
 class ImageButton_change_nickname extends StatelessWidget {
   final String label;

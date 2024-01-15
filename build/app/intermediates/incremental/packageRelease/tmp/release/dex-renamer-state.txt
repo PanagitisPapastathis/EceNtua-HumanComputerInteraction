@@ -1,0 +1,4 @@
+#Sun Jan 14 12:53:09 EET 2024
+base.0=C\:\\flutter2\\ntuaproject\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
