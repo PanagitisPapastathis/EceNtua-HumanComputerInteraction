@@ -78,6 +78,8 @@ class Leaderboard extends StatelessWidget {
                 SizedBox(height: 25),
                 Image_Friends('Maria', 'assets/Maria.png', 'lvl 21'),
               ],
+
+
             ),
           ),
           const Positioned(

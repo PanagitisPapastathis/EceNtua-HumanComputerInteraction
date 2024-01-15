@@ -336,9 +336,11 @@ Future<void> showSignUpDialog(BuildContext context) async {
                 // Here, you can save the nickname to your database if needed
                 // User is successfully signed up, now add additional details to Firestore
                 await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+                  'email': emailController.text,
                   'nickname': nicknameController.text,
                   'diamonds': 20,  // Initial diamonds value
                   'level': 1,      // Initial level value
+                  'friendList': [],
                 });
 
 
