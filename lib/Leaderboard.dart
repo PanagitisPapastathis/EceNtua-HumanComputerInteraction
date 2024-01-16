@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'models/leaderboardmodel.dart';
+import 'dart:async';
+import 'package:provider/provider.dart';
+import 'widgets/leaderboard_show_list.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -42,6 +47,7 @@ class Leaderboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: Stack(
         children: [
@@ -59,14 +65,26 @@ class Leaderboard extends StatelessWidget {
           const Positioned(
             left : 10,
             top: 55,
+            height: 70,
+            width: 200,
             child: Column(
+
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ImageButton_1('Back', 'assets/Home 1.png'),
               ],
             ),
           ),
-          const Positioned(
+          Positioned(
+            top: 250,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height - 220, // Adjust height as needed
+              child: LeaderboardPanel(),
+            ),
+          ),
+
+          /*const Positioned(
             left : 0,
             top: 300,
             child: Column(
@@ -79,9 +97,10 @@ class Leaderboard extends StatelessWidget {
                 Image_Friends('Maria', 'assets/Maria.png', 'lvl 21'),
               ],
 
-
             ),
           ),
+          */
+
           const Positioned(
             left : 30,
             top: 170,

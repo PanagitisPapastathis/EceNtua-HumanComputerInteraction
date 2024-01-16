@@ -156,20 +156,11 @@ class Friends extends StatelessWidget {
                   ],
                 ),
               ),
-              const Positioned(
+              Positioned(
                 left: 0,
                 top: 350,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Image_Friends('Nikos', 'assets/Nikos.png', 'lvl 57'),
-                    SizedBox(height: 25),
-                    Image_Friends('John', 'assets/John.png', 'lvl 27'),
-                    SizedBox(height: 25),
-                    Image_Friends('Maria', 'assets/Maria.png', 'lvl 21'),
-                  ],
+                child: FriendsListView(),
                 ),
-              ),
             ],
           );
         },
@@ -512,7 +503,6 @@ class FriendRequest {
   }
 }
 
-
 Stream<List<FriendRequest>> getFriendRequests() {
   User? currentUser = FirebaseAuth.instance.currentUser;
   if (currentUser == null) {
@@ -565,7 +555,6 @@ Future<void> acceptFriendRequest(String senderId) async {
 }
 */
 
-
 Future<void> acceptFriendRequest(String senderId) async {
   try {
     final currentUser = FirebaseAuth.instance.currentUser;
@@ -584,6 +573,7 @@ Future<void> acceptFriendRequest(String senderId) async {
     // Handle error as needed
   }
 }
+
 Future<void> addUserToFriendList(String friendRequestId, String friendId) async {
   try {
     // Fetch friend request document from Firestore
@@ -684,6 +674,8 @@ Future<void> rejectFriendRequest(String senderId, String receiverId) async {
   }
 }
 
+
+
 class Image_Friends extends StatelessWidget {
   final String label;
   final String imagePath;
@@ -693,56 +685,52 @@ class Image_Friends extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 615,
-      left: 0,
-      child: GestureDetector(
-        onTap: () {
-          // Handle button tap
-        },
-        child: SizedBox(
-          width: 418,
-          height: 105,
-          child: Stack(
-            children: [
-              Image.asset(
-                'assets/friends.png',
-                width: 418,
-                height: 105,
-                fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        // Handle button tap
+      },
+      child: Container( // Using Container for better control over styling and padding
+        width: MediaQuery.of(context).size.width, // Adjust the width to the screen size
+        height: 105,
+        child: Stack(
+          children: [
+            Image.asset(
+              'assets/friends.png',
+              width: MediaQuery.of(context).size.width, // Adjust the width to the screen size
+              height: 105,
+              fit: BoxFit.cover,
+            ),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(width: 10),
+                  Image.asset(
+                    imagePath,
+                    width: 40,
+                    height: 40,
+                  ),
+                  const SizedBox(width: 30),
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontSize: 25,
+                    ),
+                  ),
+                  const Spacer(), // Use Spacer to automatically adjust the spacing
+                  Text(
+                    label2,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontSize: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                ],
               ),
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(width: 10),
-                    Image.asset(
-                      imagePath,
-                      width: 40,
-                      height: 40,
-                    ),
-                    const SizedBox(width: 30),
-                    Text(
-                      label,
-                      style: const TextStyle(
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        fontSize: 25,
-                      ),
-                    ),
-                    const SizedBox(width: 160),
-                    Text(
-                      label2,
-                      style: const TextStyle(
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        fontSize: 20,
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -808,6 +796,32 @@ class FriendsList extends StatelessWidget {
                   SizedBox(height: 25),
                 ],
               );
+            },
+          );
+        } else {
+          return Text('No friends found');
+        }
+      },
+    );
+  }
+}
+
+class FriendsListView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Friend>>(
+      future: fetchFriends(), // Your function to fetch friends data
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator(); // Show a loading indicator while waiting
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              Friend friend = snapshot.data![index];
+              return Image_Friends(friend.nickname, friend.profileIcon, friend.level);
             },
           );
         } else {

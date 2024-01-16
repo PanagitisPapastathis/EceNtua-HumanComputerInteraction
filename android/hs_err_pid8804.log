@@ -1,0 +1,198 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (mmap) failed to map 268435456 bytes for Failed to commit area from 0x0000000701400000 to 0x0000000711400000 of length 268435456.
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (./src/hotspot/os/windows/os_windows.cpp:3619), pid=8804, tid=12236
+#
+# JRE version:  (11.0.13) (build )
+# Java VM: OpenJDK 64-Bit Server VM (11.0.13+0-b1751.21-8125866, mixed mode, sharing, tiered, compressed oops, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -Dorg.gradle.appname=gradlew org.gradle.wrapper.GradleWrapperMain -q -Ptarget-platform=android-arm64 -Ptarget=C:\flutter2\ntuaproject\lib\main.dart -Pbase-application-name=android.app.Application -Pdart-defines=Zmx1dHRlci5pbnNwZWN0b3Iuc3RydWN0dXJlZEVycm9ycz10cnVl,RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ==,RkxVVFRFUl9XRUJfQ0FOVkFTS0lUX1VSTD1odHRwczovL3d3dy5nc3RhdGljLmNvbS9mbHV0dGVyLWNhbnZhc2tpdC8zZjNlNTYwMjM2NTM5YjdlMjcwMmY1YWM3OTBiMmE0NjkxYjMyZDQ5Lw== -Pdart-obfuscation=false -Ptrack-widget-creation=true -Ptree-shake-icons=false -Pfilesystem-scheme=org-dartlang-root assembleDebug
+
+Host: Intel(R) Core(TM) i7-4710HQ CPU @ 2.50GHz, 8 cores, 15G,  Windows 10 , 64 bit Build 19041 (10.0.19041.3636)
+Time: Mon Jan 15 18:35:30 2024 GTB Standard Time elapsed time: 0.013494 seconds (0d 0h 0m 0s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000001e07e9c8800):  JavaThread "Unknown thread" [_thread_in_vm, id=12236, stack(0x0000008799a00000,0x0000008799b00000)]
+
+Stack: [0x0000008799a00000,0x0000008799b00000]
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x6100fa]
+V  [jvm.dll+0x747090]
+V  [jvm.dll+0x7486ad]
+V  [jvm.dll+0x748d83]
+V  [jvm.dll+0x24ab48]
+V  [jvm.dll+0x60d164]
+V  [jvm.dll+0x601e75]
+V  [jvm.dll+0x308bdb]
+V  [jvm.dll+0x308b4a]
+V  [jvm.dll+0x308a22]
+V  [jvm.dll+0x30d986]
+V  [jvm.dll+0x357093]
+V  [jvm.dll+0x357796]
+V  [jvm.dll+0x357193]
+V  [jvm.dll+0x2e3448]
+V  [jvm.dll+0x2e45f7]
+V  [jvm.dll+0x7242e7]
+V  [jvm.dll+0x725adc]
+V  [jvm.dll+0x364629]
+V  [jvm.dll+0x707cee]
+V  [jvm.dll+0x3d2633]
+V  [jvm.dll+0x3d4a21]
+C  [jli.dll+0x536b]
+C  [ucrtbase.dll+0x21bb2]
+C  [KERNEL32.DLL+0x17344]
+C  [ntdll.dll+0x526b1]
+
+
+---------------  P R O C E S S  ---------------
+
+Threads class SMR info:
+_java_thread_list=0x000001e07e734f70, length=0, elements={
+}
+
+Java Threads: ( => current thread )
+
+Other Threads:
+  0x000001e07e9df000 GCTaskThread "GC Thread#0" [stack: 0x0000008799b00000,0x0000008799c00000] [id=8268]
+  0x000001e07ea3a800 ConcurrentGCThread "G1 Main Marker" [stack: 0x0000008799c00000,0x0000008799d00000] [id=11844]
+  0x000001e07ea3e800 ConcurrentGCThread "G1 Conc#0" [stack: 0x0000008799d00000,0x0000008799e00000] [id=16648]
+
+[error occurred during error reporting (printing all threads), id 0xc0000005, EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x00007fffa68f3dd7]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x000001e07e9c47a0] Heap_lock - owner thread: 0x000001e07e9c8800
+
+Heap address: 0x0000000701400000, size: 4076 MB, Compressed Oops mode: Non-zero based: 0x0000000701400000
+Narrow klass base: 0x0000000000000000, Narrow klass shift: 0
+
+GC Heap History (0 events):
+No events
+
+Deoptimization events (0 events):
+No events
+
+Classes redefined (0 events):
+No events
+
+Internal exceptions (0 events):
+No events
+
+Events (1 events):
+Event: 0.008 Loaded shared library C:\Program Files\Android\Android Studio\jre\bin\zip.dll
+
+
+Dynamic libraries:
+0x00007ff6de6c0000 - 0x00007ff6de6ca000 	C:\Program Files\Android\Android Studio\jre\bin\java.exe
+0x00007ff823b50000 - 0x00007ff823d48000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x00007ff821f60000 - 0x00007ff82201d000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x00007ff821590000 - 0x00007ff821886000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x00007ff8212a0000 - 0x00007ff8213a0000 	C:\WINDOWS\System32\ucrtbase.dll
+0x00007ffff4300000 - 0x00007ffff4319000 	C:\Program Files\Android\Android Studio\jre\bin\jli.dll
+0x00007ffff3f10000 - 0x00007ffff3f27000 	C:\Program Files\Android\Android Studio\jre\bin\VCRUNTIME140.dll
+0x00007ff822ce0000 - 0x00007ff822e7e000 	C:\WINDOWS\System32\USER32.dll
+0x00007ff8213a0000 - 0x00007ff8213c2000 	C:\WINDOWS\System32\win32u.dll
+0x00007ff80fc70000 - 0x00007ff80ff0a000 	C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.3636_none_60b6a03d71f818d5\COMCTL32.dll
+0x00007ff823ae0000 - 0x00007ff823b0c000 	C:\WINDOWS\System32\GDI32.dll
+0x00007ff821de0000 - 0x00007ff821e7e000 	C:\WINDOWS\System32\msvcrt.dll
+0x00007ff821a80000 - 0x00007ff821b9a000 	C:\WINDOWS\System32\gdi32full.dll
+0x00007ff8213d0000 - 0x00007ff82146d000 	C:\WINDOWS\System32\msvcp_win.dll
+0x00007ff823a10000 - 0x00007ff823a40000 	C:\WINDOWS\System32\IMM32.DLL
+0x00007fffca9f0000 - 0x00007fffcaa8d000 	C:\Program Files\Android\Android Studio\jre\bin\msvcp140.dll
+0x00007fffa6600000 - 0x00007fffa7102000 	C:\Program Files\Android\Android Studio\jre\bin\server\jvm.dll
+0x00007ff822630000 - 0x00007ff8226e3000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x00007ff823a40000 - 0x00007ff823adf000 	C:\WINDOWS\System32\sechost.dll
+0x00007ff821c20000 - 0x00007ff821d46000 	C:\WINDOWS\System32\RPCRT4.dll
+0x00007ff821220000 - 0x00007ff821247000 	C:\WINDOWS\System32\bcrypt.dll
+0x00007ff8238e0000 - 0x00007ff8238e8000 	C:\WINDOWS\System32\PSAPI.DLL
+0x00007ff803d00000 - 0x00007ff803d09000 	C:\WINDOWS\SYSTEM32\WSOCK32.dll
+0x00007ff80bfb0000 - 0x00007ff80bfd7000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00007ff822200000 - 0x00007ff82226b000 	C:\WINDOWS\System32\WS2_32.dll
+0x00007ff81aec0000 - 0x00007ff81aeca000 	C:\WINDOWS\SYSTEM32\VERSION.dll
+0x00007ff81fab0000 - 0x00007ff81fac2000 	C:\WINDOWS\SYSTEM32\kernel.appcore.dll
+0x00007ffffca40000 - 0x00007ffffca51000 	C:\Program Files\Android\Android Studio\jre\bin\verify.dll
+0x00007ff808c50000 - 0x00007ff808e34000 	C:\WINDOWS\SYSTEM32\DBGHELP.DLL
+0x00007ffffd7a0000 - 0x00007ffffd7d4000 	C:\WINDOWS\SYSTEM32\dbgcore.DLL
+0x00007ff821890000 - 0x00007ff821912000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x00007ffffca10000 - 0x00007ffffca39000 	C:\Program Files\Android\Android Studio\jre\bin\java.dll
+0x00007ff803400000 - 0x00007ff80340b000 	C:\Program Files\Android\Android Studio\jre\bin\jimage.dll
+0x00007ffff58e0000 - 0x00007ffff58f8000 	C:\Program Files\Android\Android Studio\jre\bin\zip.dll
+
+dbghelp: loaded successfully - version: 4.0.5 - missing functions: none
+symbol engine: initialized successfully - sym options: 0x614 - pdb path: .;C:\Program Files\Android\Android Studio\jre\bin;C:\WINDOWS\SYSTEM32;C:\WINDOWS\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.19041.3636_none_60b6a03d71f818d5;C:\Program Files\Android\Android Studio\jre\bin\server
+
+VM Arguments:
+jvm_args: -Dorg.gradle.appname=gradlew 
+java_command: org.gradle.wrapper.GradleWrapperMain -q -Ptarget-platform=android-arm64 -Ptarget=C:\flutter2\ntuaproject\lib\main.dart -Pbase-application-name=android.app.Application -Pdart-defines=Zmx1dHRlci5pbnNwZWN0b3Iuc3RydWN0dXJlZEVycm9ycz10cnVl,RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ==,RkxVVFRFUl9XRUJfQ0FOVkFTS0lUX1VSTD1odHRwczovL3d3dy5nc3RhdGljLmNvbS9mbHV0dGVyLWNhbnZhc2tpdC8zZjNlNTYwMjM2NTM5YjdlMjcwMmY1YWM3OTBiMmE0NjkxYjMyZDQ5Lw== -Pdart-obfuscation=false -Ptrack-widget-creation=true -Ptree-shake-icons=false -Pfilesystem-scheme=org-dartlang-root assembleDebug
+java_class_path (initial): C:\flutter2\ntuaproject\android\\gradle\wrapper\gradle-wrapper.jar
+Launcher Type: SUN_STANDARD
+
+[Global flags]
+     intx CICompilerCount                          = 4                                         {product} {ergonomic}
+     uint ConcGCThreads                            = 2                                         {product} {ergonomic}
+     uint G1ConcRefinementThreads                  = 8                                         {product} {ergonomic}
+   size_t G1HeapRegionSize                         = 1048576                                   {product} {ergonomic}
+    uintx GCDrainStackTargetSize                   = 64                                        {product} {ergonomic}
+   size_t InitialHeapSize                          = 268435456                                 {product} {ergonomic}
+   size_t MarkStackSize                            = 4194304                                   {product} {ergonomic}
+   size_t MaxHeapSize                              = 4273995776                                {product} {ergonomic}
+   size_t MinHeapDeltaBytes                        = 1048576                                   {product} {ergonomic}
+    uintx NonNMethodCodeHeapSize                   = 5836300                                {pd product} {ergonomic}
+    uintx NonProfiledCodeHeapSize                  = 122910970                              {pd product} {ergonomic}
+    uintx ProfiledCodeHeapSize                     = 122910970                              {pd product} {ergonomic}
+    uintx ReservedCodeCacheSize                    = 251658240                              {pd product} {ergonomic}
+     bool SegmentedCodeCache                       = true                                      {product} {ergonomic}
+     bool UseCompressedClassPointers               = true                                 {lp64_product} {ergonomic}
+     bool UseCompressedOops                        = true                                 {lp64_product} {ergonomic}
+     bool UseG1GC                                  = true                                      {product} {ergonomic}
+     bool UseLargePagesIndividualAllocation        = false                                  {pd product} {ergonomic}
+
+Logging:
+Log output configuration:
+ #0: stdout all=warning uptime,level,tags
+ #1: stderr all=off uptime,level,tags
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Android\Android Studio\jre
+CLASSPATH=C:\flutter2\ntuaproject\android\\gradle\wrapper\gradle-wrapper.jar
+PATH=C:\Program Files\Android\Android Studio\jre\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\Microsoft\jdk-11.0.12.7-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\PuTTY\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\dotnet\;C:\Program Files (x86)\AOMEI\AOMEI Backupper\6.5.0;C:\Program Files (x86)\Pico Technology\PicoScope6\;C:\Program Files\MATLAB\R2021b\bin;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\swipl\bin;C:\Program Files (x86)\SMLNJ\bin\;C:\Program Files\Git\cmd;C:\Program Files\OpenVPN\bin;C:\flutter\bin;C:\flutter\flutter\bin;C:\Program Files (x86)\SMLNJ\bin;C:\Users\panpa\AppData\Local\Programs\Microsoft VS Code\bin;;C:\flutter\flutter\bin\mingit\cmd
+USERNAME=panpa
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 60 Stepping 3, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 10 , 64 bit Build 19041 (10.0.19041.3636)
+OS uptime: 1 days 6:28 hours
+
+CPU:total 8 (initial active 8) (4 cores per cpu, 2 threads per core) family 6 model 60 stepping 3 microcode 0x27, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, avx, avx2, aes, clmul, erms, lzcnt, ht, tsc, tscinvbit, bmi1, bmi2, fma
+
+Memory: 4k page, system-wide physical 16303M (2143M free)
+TotalPageFile size 18351M (AvailPageFile size 69M)
+current process WorkingSet (physical memory assigned to process): 10M, peak: 10M
+current process commit charge ("private bytes"): 60M, peak: 316M
+
+vm_info: OpenJDK 64-Bit Server VM (11.0.13+0-b1751.21-8125866) for windows-amd64 JRE (11.0.13+0-b1751.21-8125866), built on Feb  2 2022 03:00:22 by "builder" with MS VC++ 14.0 (VS2015)
+
+END.
