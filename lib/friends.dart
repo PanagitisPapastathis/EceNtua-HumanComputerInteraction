@@ -156,20 +156,11 @@ class Friends extends StatelessWidget {
                   ],
                 ),
               ),
-              const Positioned(
+              Positioned(
                 left: 0,
                 top: 350,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Image_Friends('Nikos', 'assets/Nikos.png', 'lvl 57'),
-                    SizedBox(height: 25),
-                    Image_Friends('John', 'assets/John.png', 'lvl 27'),
-                    SizedBox(height: 25),
-                    Image_Friends('Maria', 'assets/Maria.png', 'lvl 21'),
-                  ],
+                child: FriendsListView(),
                 ),
-              ),
             ],
           );
         },
@@ -512,7 +503,6 @@ class FriendRequest {
   }
 }
 
-
 Stream<List<FriendRequest>> getFriendRequests() {
   User? currentUser = FirebaseAuth.instance.currentUser;
   if (currentUser == null) {
@@ -565,7 +555,6 @@ Future<void> acceptFriendRequest(String senderId) async {
 }
 */
 
-
 Future<void> acceptFriendRequest(String senderId) async {
   try {
     final currentUser = FirebaseAuth.instance.currentUser;
@@ -585,25 +574,67 @@ Future<void> acceptFriendRequest(String senderId) async {
   }
 }
 
-Future<void> addUserToFriendList(String userId, String friendId) async {
+Future<void> addUserToFriendList(String friendRequestId, String friendId) async {
   try {
-    // Fetch user document from Firestore
-    DocumentReference userDocRef = FirebaseFirestore.instance.collection('users').doc(userId);
+    // Fetch friend request document from Firestore
+    DocumentReference requestDocRef = FirebaseFirestore.instance.collection('friendRequests').doc(friendRequestId);
 
-    // Get current friend list
-    DocumentSnapshot userSnapshot = await userDocRef.get();
-    List<dynamic> currentFriendList = userSnapshot.get('friendList') ?? [];
+    // Get current friend request data
+    DocumentSnapshot requestSnapshot = await requestDocRef.get();
 
-    // Add the friend to the list if not already present
-    if (!currentFriendList.contains(friendId)) {
-      currentFriendList.add(friendId);
+    if (requestSnapshot.exists) {
+      Map<String, dynamic> requestData = requestSnapshot.data() as Map<String, dynamic>;
 
-      // Update the user document to include the friend in the friendList
-      await userDocRef.update({'friendList': currentFriendList});
+      // Extract the senderId and receiverId from the friend request
+      String senderId = requestData['senderId'];
+      String receiverId = requestData['receiverId'];
+
+      // Add the receiver as a friend for the sender
+      await addFriendForUser(senderId, receiverId);
+
+      // Add the sender as a friend for the receiver
+      await addFriendForUser(receiverId, senderId);
+
+      // Remove the friend request document
+      await requestDocRef.delete();
+    } else {
+      // Handle the case where the friend request document doesn't exist
+      print("Error: Friend request document does not exist for requestId: $friendRequestId");
     }
   } catch (e) {
     print("Error adding user to friend list: $e");
-    // Handle error as needed
+    // Handle other errors as needed
+  }
+}
+
+Future<void> addFriendForUser(String userId, String friendId) async {
+  // Fetch user document from Firestore
+  DocumentReference userDocRef = FirebaseFirestore.instance.collection('users').doc(userId);
+
+  // Get current friend list
+  DocumentSnapshot userSnapshot = await userDocRef.get();
+
+  // Check if the 'friendList' field exists in the user document
+  if (userSnapshot.exists) {
+    Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
+
+    if (userData.containsKey('friendList')) {
+      List<dynamic> currentFriendList = userData['friendList'] ?? [];
+
+      // Add the friend to the list if not already present
+      if (!currentFriendList.contains(friendId)) {
+        currentFriendList.add(friendId);
+
+        // Update the user document to include the friend in the friendList
+        await userDocRef.update({'friendList': currentFriendList});
+      }
+    } else {
+      // If the 'friendList' field doesn't exist, you can handle it here
+      print("Error: 'friendList' field does not exist in the user document.");
+    }
+  } else {
+    // Handle the case where the user document doesn't exist
+    print("Error: User document does not exist for userId: $userId");
   }
 }
 
@@ -625,8 +656,6 @@ Future<void> removeFriendRequest(String senderId, String receiverId) async {
   }
 }
 
-
-
 Future<void> rejectFriendRequest(String senderId, String receiverId) async {
   // Delete the friend request
   User? currentUser = FirebaseAuth.instance.currentUser;
@@ -645,6 +674,8 @@ Future<void> rejectFriendRequest(String senderId, String receiverId) async {
   }
 }
 
+
+
 class Image_Friends extends StatelessWidget {
   final String label;
   final String imagePath;
@@ -654,58 +685,149 @@ class Image_Friends extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 615,
-      left: 0,
-      child: GestureDetector(
-        onTap: () {
-          // Handle button tap
-        },
-        child: SizedBox(
-          width: 418,
-          height: 105,
-          child: Stack(
-            children: [
-              Image.asset(
-                'assets/friends.png',
-                width: 418,
-                height: 105,
-                fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        // Handle button tap
+      },
+      child: Container( // Using Container for better control over styling and padding
+        width: MediaQuery.of(context).size.width, // Adjust the width to the screen size
+        height: 105,
+        child: Stack(
+          children: [
+            Image.asset(
+              'assets/friends.png',
+              width: MediaQuery.of(context).size.width, // Adjust the width to the screen size
+              height: 105,
+              fit: BoxFit.cover,
+            ),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(width: 10),
+                  Image.asset(
+                    imagePath,
+                    width: 40,
+                    height: 40,
+                  ),
+                  const SizedBox(width: 30),
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontSize: 25,
+                    ),
+                  ),
+                  const Spacer(), // Use Spacer to automatically adjust the spacing
+                  Text(
+                    label2,
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontSize: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                ],
               ),
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(width: 10),
-                    Image.asset(
-                      imagePath,
-                      width: 40,
-                      height: 40,
-                    ),
-                    const SizedBox(width: 30),
-                    Text(
-                      label,
-                      style: const TextStyle(
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        fontSize: 25,
-                      ),
-                    ),
-                    const SizedBox(width: 160),
-                    Text(
-                      label2,
-                      style: const TextStyle(
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        fontSize: 20,
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
+    );
+  }
+}
+
+class Friend {
+  final String nickname;
+  final String profileIcon;
+  final String level;
+
+  Friend({required this.nickname, required this.profileIcon, required this.level});
+}
+
+Future<List<Friend>> fetchFriends() async {
+  List<Friend> friendsList = [];
+  // Assuming 'userId' is the ID of the current user
+  String userId = 'current_user_id';
+
+  // Reference to the user's document
+  DocumentReference userDocRef = FirebaseFirestore.instance.collection('users').doc(userId);
+
+  // Fetch the user's friend list
+  DocumentSnapshot userSnapshot = await userDocRef.get();
+  if (userSnapshot.exists) {
+    Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
+    List<dynamic> friendIds = userData['friendList'] ?? [];
+
+    for (String friendId in friendIds) {
+      // Fetch each friend's data
+      DocumentSnapshot friendSnapshot = await FirebaseFirestore.instance.collection('users').doc(friendId).get();
+      if (friendSnapshot.exists) {
+        Map<String, dynamic> friendData = friendSnapshot.data() as Map<String, dynamic>;
+        String nickname = friendData['nickname'] ?? 'no_name';
+        String profileIcon = friendData['profileIcon'] ?? 'assets/gee_me_053.png';
+        String level = friendData['level'];  // Assuming 'level' field always exists
+
+        friendsList.add(Friend(nickname: nickname, profileIcon: profileIcon, level: level));
+      }
+    }
+  }
+  return friendsList;
+}
+
+class FriendsList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Friend>>(
+      future: fetchFriends(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator(); // Show loading indicator
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              Friend friend = snapshot.data![index];
+              return Column(
+                children: [
+                  Image_Friends(friend.nickname, friend.profileIcon, friend.level),
+                  SizedBox(height: 25),
+                ],
+              );
+            },
+          );
+        } else {
+          return Text('No friends found');
+        }
+      },
+    );
+  }
+}
+
+class FriendsListView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Friend>>(
+      future: fetchFriends(), // Your function to fetch friends data
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator(); // Show a loading indicator while waiting
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: (context, index) {
+              Friend friend = snapshot.data![index];
+              return Image_Friends(friend.nickname, friend.profileIcon, friend.level);
+            },
+          );
+        } else {
+          return Text('No friends found');
+        }
+      },
     );
   }
 }

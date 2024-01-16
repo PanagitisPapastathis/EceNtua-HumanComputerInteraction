@@ -38,6 +38,10 @@ Future<Map<String, dynamic>?> getUserData() async {
         Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
         // Add or update the profileIcon field
         userData['profileIcon'] = userData['profileIcon'] ?? 'assets/gee_me_053.png';
+        await FirebaseFirestore.instance
+            .collection('leaderboard')
+            .doc(currentUser.uid)
+            .update({'icon': userData['profileIcon'] ?? 'assets/gee_me_053.png'});
         return userData;
       }
     }

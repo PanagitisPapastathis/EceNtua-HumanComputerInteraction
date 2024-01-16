@@ -2,12 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 import 'home.dart';
+import 'models/leaderboardmodel.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => LeaderboardService()),
+        ],
+        child: MyApp(),
+    )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -336,13 +345,26 @@ Future<void> showSignUpDialog(BuildContext context) async {
                 // Here, you can save the nickname to your database if needed
                 // User is successfully signed up, now add additional details to Firestore
                 await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+                  'userId': userCredential.user!.uid,
                   'email': emailController.text,
                   'nickname': nicknameController.text,
                   'diamonds': 20,  // Initial diamonds value
                   'level': 1,      // Initial level value
                   'friendList': [],
+                  'profileIcon': "assets/gee_me_053.png",
                 });
 
+                var userId = userCredential.user!.uid;
+                var userDocument = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+                var userData = userDocument.data();
+                if (userData != null) {
+                  var leaderboardData = {
+                    'icon': userData['profileIcon'],
+                    'level': userData['level'],
+                    'name': userData['nickname']
+                  };
+                  await FirebaseFirestore.instance.collection('leaderboard').doc(userId).set(leaderboardData);
+                }
 
                 Navigator.of(context).pop(); // Close the dialog
                 // You may navigate to the home screen or show a success message
